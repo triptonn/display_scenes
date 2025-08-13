@@ -89,12 +89,14 @@ Each scene follows the same pattern:
 
 ### How examples use the interfaces
 - MassiveBalls
-  - Creates several `Ball` instances, toggles `setBouncy(true)`, sets friction/drag coefficients, and adds a `SimpleLiquid` region.
-  - On each tick, applies forces to all `Moveable`s: gravity, optional wind, friction when `isLanded()`, and liquid drag when inside `SimpleLiquid`.
-  - Let each `Updateable` integrate itself; `Renderable`s are batched by the model and drawn.
-- BoxDraw
-  - Adds a static `Box` (`Inert, Renderable`) and a dynamic `MoBox` (`Moveable, Renderable, Updateable`).
-  - Shows an angular velocity `VectorArrow` overlay (`Informative, Renderable`). The scene updates the arrow’s vector each frame and uses `applyMomentum` on the `Moveable`.
+  - Creates several Ball objects and simulates them falling without drag as well as falling through a SimpleLiquid object.
+  - More: [MassiveBalls documentation](app/massive_balls/README.md)
+- Gravitational
+  - Demonstrates the Attractor interface by having one body orbit another.
+  - More: [Gravitational documentation](app/gravitational/README.md)
+- MouseHunter
+  - Creates a Ball object that has a constant acceleration towards the mouse cursor applied to itself
+  - More: [MouseHunter documentation](app/mouse_hunter/README.md)
 
 ### Create your own scene
 1) Copy `app/templates` into a new package under `app/<your_scene>` or start from an existing example.
@@ -103,6 +105,7 @@ Each scene follows the same pattern:
    - Apply forces to `Moveable`s via `applyForce(Vec)` and/or `applyMomentum(Vec)`.
    - Call `model.update()` then `repaint()`.
 4) Use `setVisible(true)` to render, `setBouncy(true)` and `setBounceFactor` for simple bounds bounces, and friction/drag flags for basic resistive forces.
+   - More: [Scene Template documentation](app/templates/README.md)
 
 ### Examples (gallery)
 #### RandomWalker
