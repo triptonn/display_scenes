@@ -15,7 +15,16 @@ import java.util.ArrayList;
 
 import data.Vec;
 
+/**
+ * Central state holder and orchestrator for a scene.
+ *
+ * <p>Maintains registries of objects grouped by capabilities and defines
+ * update and render ordering. Typical usage is to add domain objects via
+ * {@link #addObject(objects.SceneObject)} and call {@link #update()} each
+ * frame before delegating drawing to {@link #render(Graphics2D)}.</p>
+ */
 public class SceneModel {
+	/** Whether to show optional debug/diagnostic overlays. */
     private boolean isShowComponents = false;
 
     private ArrayList<Attractor> attractors;
@@ -30,6 +39,11 @@ public class SceneModel {
 
     private Vec mousePos = origin;
 
+	/**
+	 * Create a model for a scene of the given dimensions.
+	 *
+	 * @param scene logical size of the scene in pixels
+	 */
     public SceneModel(Dimension scene) {
         this.dim = scene;
         this.origin = new Vec(this.dim.width / 2, this.dim.height / 2);
@@ -40,6 +54,11 @@ public class SceneModel {
         updaters = new ArrayList<>();
     }
 
+	/**
+	 * Register a new object with the scene and index it by its capabilities.
+	 *
+	 * @param obj scene object to add
+	 */
     public void addObject(SceneObject obj) {
         objects.add(obj);
         if (obj instanceof Moveable) {
@@ -59,8 +78,14 @@ public class SceneModel {
         }
     }
 
+	/**
+	 * Advance the simulation by one tick.
+	 *
+	 * <p>Apply global forces, then call {@link Updateable#update()} for all
+	 * registered updaters, and finally perform any per-object bookkeeping.</p>
+	 */
     public void update() {
-        for (Moveable mover : movers) {
+		for (int i = 0, n = movers.size(); i < n; i++) {
             // Gravity could go here
         }
 
@@ -68,11 +93,16 @@ public class SceneModel {
             updater.update();
         }
 
-        for (SceneObject object : objects) {
+		for (int i = 0, n = objects.size(); i < n; i++) {
             // for updates to all objects
         }
     }
 
+	/**
+	 * Render all visible objects in layers: background, actors, then overlays.
+	 *
+	 * @param g2d target graphics context
+	 */
     public void render(Graphics2D g2d) {
         ArrayList<Renderable> background = new ArrayList<>();
         ArrayList<Renderable> liquidBodies = new ArrayList<>();
@@ -107,42 +137,58 @@ public class SceneModel {
         }
     }
 
+	/**
+	 * Enable or disable optional component visualization.
+	 * @param state true to show, false to hide
+	 */
     public void setShowComponents(boolean state) {
         this.isShowComponents = state;
     }
 
+	/** @return all registered scene objects */
     public ArrayList<SceneObject> getObjects() {
         return this.objects;
     }
 
+	/** @return registered attractors (may be null if never initialized) */
     public ArrayList<Attractor> getAttractors() {
         return this.attractors;
     }
 
+	/** @return registered informative overlays (may be null if never initialized) */
     public ArrayList<Informative> getInformatives() {
         return this.informatives;
     }
 
+	/** @return whether debug components should be drawn */
     public boolean isShowComponents() {
         return isShowComponents;
     }
 
+	/** @return scene dimensions */
     public Dimension getDimensions() {
         return this.dim;
     }
 
+	/** @return scene origin (center point) */
     public Vec getOrigin() {
         return this.origin;
     }
 
+	/** @return last known mouse position */
     public Vec getMousePos() {
         return this.mousePos;
     }
 
+	/**
+	 * Update the stored mouse position.
+	 * @param pos new mouse position
+	 */
     public void setMousePos(Vec pos) {
         this.mousePos = pos;
     }
 
+	/** Toggle the component-visibility flag. */
     public void toggleShowComponents() {
         this.isShowComponents = !this.isShowComponents;
     }

@@ -12,8 +12,16 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 
+/**
+ * Minimal runnable example application built on the scene framework.
+ *
+ * <p>Creates a window, wires basic input, and runs a ~60 FPS {@link Timer}
+ * that drives updates and repaints. Extend {@link #setupScene()} and
+ * {@link #updateSceneState()} to build an interactive scene.</p>
+ */
 public class SceneTemplate {
 
+	/** Default window size. */
     public Dimension dim = new Dimension(1280, 720);
 
     private Timer sceneTimer;
@@ -21,6 +29,9 @@ public class SceneTemplate {
     private final ScenePanel panel;
     private final JFrame frame;
 
+	/**
+	 * Initialize the window, model, panel, and basic input handlers.
+	 */
     public SceneTemplate() {
         model = new SceneModel(this.dim);
         panel = new ScenePanel(model);
@@ -51,6 +62,7 @@ public class SceneTemplate {
         });
     }
 
+	/** Start the ~60 FPS loop and show the window. */
     public void startLoop() {
         if (sceneTimer == null) {
             sceneTimer = new Timer(16, e -> {
@@ -62,16 +74,19 @@ public class SceneTemplate {
         frame.setVisible(true);
     }
 
+	/** Stop the loop if running. */
     public void stopLoop() {
         if (sceneTimer != null) {
             sceneTimer.stop();
         }
     };
 
+	/** Place per-frame game logic here. */
     private void updateSceneState() {
         // Game logic
     };
 
+	/** Construct and register your scene objects here. */
     private void setupScene() {
         // Scene setup
     }
