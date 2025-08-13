@@ -1,4 +1,4 @@
-### DisplayScenes
+# DisplayScenes
 Simple Swing-based framework to build small physics-like objects and render them in interactive scenes.
 
 The project has two parts:
