@@ -7,32 +7,54 @@ The project has two parts:
 
 ### Dependencies
 - JavaSE-21
+- Used IDE: Eclipse
 
 ### Quick start
 - Clone the repo
-- Import folder to your IDE  and run a scene from there by launching its `main` method, e.g. `massive_balls.MassiveBalls` or `box_draw.BoxDraw`.
-- or CLI (PowerShell) from repo root directory:
-```powershell
-# Requires JDK 21 (javac/java on PATH)
+- Run the build script depending on your environment:
 
-# 1) Create the output directory
-New-Item -ItemType Directory -Force bin | Out-Null
+  - Windows Command Line (cmd)
 
-# 2) Generate an argfile listing all sources under `app` and `core`
-#    Use ASCII so javac can read it reliably on Windows PowerShell 5.1+
-Get-ChildItem -Path app, core -Recurse -File -Filter *.java |
-  ForEach-Object { $_.FullName } |
-  Set-Content -Encoding ascii sources.txt
+  ```cmd
+  REM Run this from the project root directory
+  .\build\build.cmd
+  ```
+  - PowerShell
 
-# 3) Compile all sources into ./bin (packages like `data`, `objects`, `massive_balls` are rooted at app/core)
-#    Quote @sources.txt to avoid PowerShell splatting
-javac -d bin '@sources.txt'
-# (Alternative for Windows PowerShell): javac --% -d bin @sources.txt
+  ```powershell
+  # Run this from the project root directory
+  ./build/build.ps1
+  ```
+  - Bash [Linux and OSX (not tested)]
 
-# 4) Run a scene (pick one main class)
-java -cp bin massive_balls.MassiveBalls
-# or
+  ```bash
+  # Run this from the project root directory
+  ./build/build.sh
+  ```
+
+- To run the example applications from the project root directory use:
+
+```bash
+# BoxDraw 
 java -cp bin box_draw.BoxDraw
+
+# GaussianBars
+java -cp bin gaussian_bars.GaussianBars
+
+# Gravitational
+java -cp bin gravitational.Gravitational
+
+# MassiveBalls
+java -cp bin massive_balls.MassiveBalls
+
+# MouseHunter
+java -cp bin mouse_hunter.MouseHunter
+
+# RandomWalker
+java -cp bin random_walker.RandomWalker
+
+# VectorShizzle
+java -cp bin vector_shizzle.VectorShizzle
 ```
 
 ### Library interfaces (how they are used)
